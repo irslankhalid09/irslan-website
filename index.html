@@ -19,15 +19,24 @@
     <section class="hero">
       <p class="label">Associate Researcher · Shenzhen University</p>
       <h1>Muhammad<br><em>Irslan Khalid</em></h1>
-      <p class="intro">Dr Muhammad Irslan Khalid holds a B.S. (2013) in civil engineering from University of Engineering and Technology, Taxila, an M.S. (2015) in civil engineering (Transportation engineering) from the University of Engineering and Technology, Taxila, and a Ph.D. (2021) in civil engineering (geotechnical engineering) from the Hanyang University. He joined the faculty of the College of Civil and Transportation Engineering at Shenzhen University in 2022.
-        
- He focuses on the use of advanced computational methods to solve challenging engineering problems, with primary interests in geotechnical earthquake engineering and soil-structure-interaction. His fields of expertise include probabilistic seismic hazard analysis, nonlinear site response analysis, liquefaction assessment, seismic slope stability, seismic performance of underground structure and interaction with tall buildings, lifeline performance assessment, design of offshore foundations. He is also interested in soil characterization using laboratory and field testing.</p>
+      <p class="intro">I study how granular materials, ground motion, and uncertainty shape the safety and resilience of critical infrastructure.</p>
       <a class="button" href="mailto:irslankhalid@hanyang.ac.kr">Get in touch <b>→</b></a>
       <div class="focus"><span>Computational<br>geomechanics</span><span>Granular<br>materials</span><span>Infrastructure<br>resilience</span></div>
     </section>
     <section id="about">
       <p class="label">01 / About</p>
       <div><h2>Researching safer infrastructure under complex hazards.</h2><p class="lead">Dr. Khalid is an Associate Researcher at the College of Civil and Transportation Engineering, Shenzhen University. His work integrates nonlinear numerical modeling, probabilistic assessment, and resilience-based decision support.</p><div class="stats"><div><b>30</b><span>peer-reviewed<br>articles</span></div><div><b>445</b><span>citations</span></div><div><b>102.8</b><span>total impact<br>factor</span></div></div></div>
+    </section>
+    <section id="gallery" class="gallery-section">
+      <div class="gallery-heading"><p class="label">Research visuals</p><p>Selected computational models and resilience studies.</p><div class="gallery-controls"><button class="gallery-button" type="button" data-direction="previous" aria-label="Show previous image">←</button><button class="gallery-button" type="button" data-direction="next" aria-label="Show next image">→</button></div></div>
+      <div class="gallery-track" aria-label="Research image gallery">
+        <figure><img src="images/model-foundation.png" alt="Finite-element model of a foundation system"><figcaption>Foundation-system finite-element model</figcaption></figure>
+        <figure><img src="images/model-components.png" alt="Numerical model components inside a soil volume"><figcaption>Computational model components</figcaption></figure>
+        <figure><img src="images/slope-model.png" alt="Three-dimensional geotechnical slope model"><figcaption>Three-dimensional slope model</figcaption></figure>
+        <figure><img src="images/bridge-system.png" alt="Bridge-pile system model with friction pendulum isolator"><figcaption>Bridge-pile system with seismic isolation</figcaption></figure>
+        <figure><img src="images/tunnel-layout.png" alt="Tunnel cross section and instrumentation layout"><figcaption>Tunnel layout and instrumentation</figcaption></figure>
+        <figure><img src="images/resilience-analysis.png" alt="Resilience-index surface and heat map"><figcaption>Infrastructure resilience assessment</figcaption></figure>
+      </div>
     </section>
     <section id="research" class="dark">
       <p class="label">02 / Research areas</p>
@@ -41,8 +50,18 @@
       <p class="label">04 / Selected publications</p>
       <div class="papers"><article><p>2026 · Earthquake Engineering & Structural Dynamics</p><h3>Vine-copula framework for multi-dimensional seismic fragility and resilience assessment of concrete face rockfill dam subjected to mainshock-aftershock sequences.</h3><a href="https://doi.org/10.1002/eqe.70204">Read paper ↗</a></article><article><p>2025 · Transportation Geotechnics</p><h3>Resilience assessment of highway roads affected by slope failures induced by mainshock-aftershock sequences.</h3><a href="https://doi.org/10.1016/j.trgeo.2025.101824">Read paper ↗</a></article><article><p>2024 · Soil Dynamics and Earthquake Engineering</p><h3>Probabilistic assessment of seismic performance of slopes considering the sensitivity of sliding surface to input motion.</h3><a href="https://doi.org/10.1016/j.soildyn.2024.108737">Read paper ↗</a></article></div>
     </section>
-    <section id="contact"><p class="label">05 / Contact</p><div><h2>Let’s build more resilient infrastructure.</h2><a class="email" href="mailto:irslankhalid@szu.edu.cn">irslankhalid@szu.edu.cn ↗</a><p class="place">Shenzhen University · Shenzhen, China</p></div></section>
+    <section id="contact"><p class="label">05 / Contact</p><div><h2>Let’s build more resilient infrastructure.</h2><a class="email" href="mailto:irslankhalid@hanyang.ac.kr">irslankhalid@hanyang.ac.kr ↗</a><p class="place">Shenzhen University · Shenzhen, China</p></div></section>
   </main>
   <footer><span>© 2026 Muhammad Irslan Khalid</span><span>Computational Geomechanics · Granular Materials · Resilience</span></footer>
+  <script>
+    const track = document.querySelector('.gallery-track');
+    const buttons = document.querySelectorAll('.gallery-button');
+    let timer;
+    const move = (direction = 1) => { const card = track.querySelector('figure'); const amount = card.offsetWidth + 20; const end = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4; track.scrollBy({left: direction * amount, behavior: 'smooth'}); if (direction > 0 && end) setTimeout(() => track.scrollTo({left: 0, behavior: 'smooth'}), 350); };
+    const restart = () => { clearInterval(timer); timer = setInterval(() => move(1), 4200); };
+    buttons.forEach(button => button.addEventListener('click', () => { move(button.dataset.direction === 'next' ? 1 : -1); restart(); }));
+    track.addEventListener('pointerenter', () => clearInterval(timer));
+    track.addEventListener('pointerleave', restart); restart();
+  </script>
 </body>
 </html>
