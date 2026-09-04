@@ -9,10 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <style>.authors{color:#61706a;font-size:14px;line-height:1.55;margin:-5px 0 17px}.authors strong{color:#14221e;font-weight:700}</style>
+  <style>.authors{color:#61706a;font-size:14px;line-height:1.55;margin:-5px 0 17px}.authors strong{color:#14221e;font-weight:700}.header{position:sticky!important;top:0;z-index:100;background:rgba(246,245,239,.96);backdrop-filter:blur(10px)}.header nav a.active{color:#cb5639;border-bottom:1px solid #cb5639;padding-bottom:4px}</style>
 </head>
 <body>
-  <header class="header">
+  <header class="header" id="site-navigation">
     <a class="brand" href="#top">MIK<span>.</span></a>
     <nav aria-label="Primary navigation"><a href="#about">About</a><a href="#research">Research</a><a href="#publications">Publications</a><a href="#contact">Contact</a></nav>
   </header>
@@ -27,7 +27,7 @@
     </section>
     <section id="about">
       <p class="label">01 / About</p>
-      <div><h2>Researching safer infrastructure under complex hazards.</h2><p class="lead">Dr Muhammad Irslan Khalid holds a B.S. (2013) in civil engineering from University of Engineering and Technology, Taxila, an M.S. (2015) in civil engineering (Transportation engineering) from the University of Engineering and Technology, Taxila, and a Ph.D. (2021) in civil engineering (geotechnical engineering) from the Hanyang University. He joined the College of Civil and Transportation Engineering at Shenzhen University in 2022.</p><p class="lead">He focuses on the use of advanced computational methods to solve challenging engineering problems, with primary interests in geotechnical earthquake engineering and soil-structure-interaction. His fields of expertise include probabilistic seismic hazard analysis, nonlinear site response analysis, liquefaction assessment, seismic slope stability, seismic performance of underground structure and interaction with tall buildings, lifeline performance assessment, and design of offshore foundations. He is also interested in soil characterization using laboratory and field testing.</p><div class="stats"><div><b id="publication-count">25</b><span>peer-reviewed<br>articles</span></div><div><b>450</b><span>citations</span></div><div><b id="impact-total">109.1</b><span>total impact<br>factor</span></div></div></div>
+      <div><h2>Researching safer infrastructure under complex hazards.</h2><p class="lead">Dr Muhammad Irslan Khalid holds a B.S. (2013) in civil engineering from University of Engineering and Technology, Taxila, an M.S. (2015) in civil engineering (Transportation engineering) from the University of Engineering and Technology, Taxila, and a Ph.D. (2021) in civil engineering (geotechnical engineering) from the Hanyang University. He joined the College of Civil and Transportation Engineering at Shenzhen University in 2022.</p><p class="lead">He focuses on the use of advanced computational methods to solve challenging engineering problems, with primary interests in geotechnical earthquake engineering and soil-structure-interaction. His fields of expertise include probabilistic seismic hazard analysis, nonlinear site response analysis, liquefaction assessment, seismic slope stability, seismic performance of underground structure and interaction with tall buildings, lifeline performance assessment, and design of offshore foundations. He is also interested in soil characterization using laboratory and field testing.</p><div class="stats"><div><b id="publication-count">25</b><span>peer-reviewed<br>articles</span></div><div><b id="conference-count">7</b><span>conference<br>papers</span></div><div><b>450</b><span>citations</span></div><div><b id="impact-total">109.1</b><span>total impact<br>factor</span></div></div></div>
     </section>
     <section id="gallery" class="gallery-section">
       <div class="gallery-heading"><p class="label">Research visuals</p><div class="gallery-controls"><button class="gallery-button" type="button" data-direction="previous" aria-label="Show previous image">←</button><button class="gallery-button" type="button" data-direction="next" aria-label="Show next image">→</button></div></div>
@@ -82,6 +82,15 @@
   </main>
   <footer><span>© 2026 Muhammad Irslan Khalid</span><span>Computational Geomechanics · Granular Materials · Resilience</span></footer>
   <script>
+    const navigation = document.querySelector('#site-navigation');
+    const pageSections = [...document.querySelectorAll('main section[id]')];
+    const navigationLinks = [...navigation.querySelectorAll('nav a')];
+    const updateNavigation = () => {
+      const current = pageSections.find(section => section.getBoundingClientRect().top > 90) || pageSections.at(-1);
+      navigationLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${current.id}`));
+    };
+    window.addEventListener('scroll', updateNavigation, { passive: true });
+    updateNavigation();
     fetch('publications.json').then(response => response.json()).then(publications => {
       const papers = document.querySelector('.papers');
       papers.innerHTML = publications.map(paper => {
@@ -90,6 +99,7 @@
         return `<article><p>${paper.year} · ${paper.journal}</p><h3>${paper.title}</h3><div class="authors">${authors}</div>${doi}</article>`;
       }).join('');
       document.querySelector('#publication-count').textContent = publications.filter(paper => paper.type !== 'conference').length;
+      document.querySelector('#conference-count').textContent = publications.filter(paper => paper.type === 'conference').length;
       document.querySelector('#impact-total').textContent = publications.reduce((sum, paper) => sum + Number(paper.impact_factor || 0), 0).toFixed(1);
     });
     const track = document.querySelector('.gallery-track');
