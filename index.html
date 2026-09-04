@@ -27,7 +27,7 @@
     </section>
     <section id="about">
       <p class="label">01 / About</p>
-      <div><h2>Researching safer infrastructure under complex hazards.</h2><p class="lead">Dr Muhammad Irslan Khalid holds a B.S. (2013) in civil engineering from University of Engineering and Technology, Taxila, an M.S. (2015) in civil engineering (Transportation engineering) from the University of Engineering and Technology, Taxila, and a Ph.D. (2021) in civil engineering (geotechnical engineering) from the Hanyang University. He joined the College of Civil and Transportation Engineering at Shenzhen University in 2022.</p><p class="lead">He focuses on the use of advanced computational methods to solve challenging engineering problems, with primary interests in geotechnical earthquake engineering and soil-structure-interaction. His fields of expertise include probabilistic seismic hazard analysis, nonlinear site response analysis, liquefaction assessment, seismic slope stability, seismic performance of underground structure and interaction with tall buildings, lifeline performance assessment, and design of offshore foundations. He is also interested in soil characterization using laboratory and field testing.</p><div class="stats"><div><b>30</b><span>peer-reviewed<br>articles</span></div><div><b>450</b><span>citations</span></div><div><b>102.8</b><span>total impact<br>factor</span></div></div></div>
+      <div><h2>Researching safer infrastructure under complex hazards.</h2><p class="lead">Dr Muhammad Irslan Khalid holds a B.S. (2013) in civil engineering from University of Engineering and Technology, Taxila, an M.S. (2015) in civil engineering (Transportation engineering) from the University of Engineering and Technology, Taxila, and a Ph.D. (2021) in civil engineering (geotechnical engineering) from the Hanyang University. He joined the College of Civil and Transportation Engineering at Shenzhen University in 2022.</p><p class="lead">He focuses on the use of advanced computational methods to solve challenging engineering problems, with primary interests in geotechnical earthquake engineering and soil-structure-interaction. His fields of expertise include probabilistic seismic hazard analysis, nonlinear site response analysis, liquefaction assessment, seismic slope stability, seismic performance of underground structure and interaction with tall buildings, lifeline performance assessment, and design of offshore foundations. He is also interested in soil characterization using laboratory and field testing.</p><div class="stats"><div><b id="publication-count">25</b><span>peer-reviewed<br>articles</span></div><div><b>445</b><span>citations</span></div><div><b id="impact-total">109.1</b><span>total impact<br>factor</span></div></div></div>
     </section>
     <section id="gallery" class="gallery-section">
       <div class="gallery-heading"><p class="label">Research visuals</p><div class="gallery-controls"><button class="gallery-button" type="button" data-direction="previous" aria-label="Show previous image">←</button><button class="gallery-button" type="button" data-direction="next" aria-label="Show next image">→</button></div></div>
@@ -82,6 +82,16 @@
   </main>
   <footer><span>© 2026 Muhammad Irslan Khalid</span><span>Computational Geomechanics · Granular Materials · Resilience</span></footer>
   <script>
+    fetch('publications.json').then(response => response.json()).then(publications => {
+      const papers = document.querySelector('.papers');
+      papers.innerHTML = publications.map(paper => {
+        const authors = paper.authors.replace(/Khalid, M\. I\./g, '<strong>Khalid, M. I.</strong>');
+        const doi = paper.doi ? `<a href="${paper.doi}" target="_blank" rel="noreferrer">DOI ↗</a>` : '';
+        return `<article><p>${paper.year} · ${paper.journal}</p><h3>${paper.title}</h3><div class="authors">${authors}</div>${doi}</article>`;
+      }).join('');
+      document.querySelector('#publication-count').textContent = publications.filter(paper => paper.type !== 'conference').length;
+      document.querySelector('#impact-total').textContent = publications.reduce((sum, paper) => sum + Number(paper.impact_factor || 0), 0).toFixed(1);
+    });
     const track = document.querySelector('.gallery-track');
     const buttons = document.querySelectorAll('.gallery-button');
     let timer;
